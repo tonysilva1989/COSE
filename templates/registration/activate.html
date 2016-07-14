@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block subtitle %}{% trans "account activation" %}{% endblock %}
+
+{% block content %}
+    <p>{% trans "Account activation failed. This link is no longer valid." %}</p>
+{% endblock %}

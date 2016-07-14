@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load staticfiles %}
+
+{% block extra_head %}
+    <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+    <script src="{% static "crowd/workers/script/index.js" %}"></script>
+
+    <script type="text/javascript">
+        var ranking_list = "{{ ranking_list }}";
+    </script>
+
+    <link rel="stylesheet"
+          href="{% static "common/css/jqui-custom-theme/jquery-ui-1.9.0.custom.min.css" %}">
+
+    <link rel="stylesheet"
+          href="{% static "crowd/tileui/css/cosegui.css" %}">
+
+    <style></style>
+{% endblock %}
+
+{% block subtitle %} Ranking {% endblock %}
+
+{% block content %}
+    <!--
+    <div id="rankingBlock" style="margin-left: auto; margin-right: auto; width: 300px">
+        {% if ranking_list %}
+        <p style="text-align: center">Ranking</p>
+        <table id="rank" style="margin-left: auto; margin-right: auto;">
+            <tr>
+                <th colspan='2' style='padding: 0px 50px 10px 0px'>User</th>
+                <th style='text-align: right; padding: 0px 0px 10px 0px'>Score</th>
+            </tr>
+            {% for values in ranking_list %}
+                <tr>
+                <td style='text-align: right'> {{ values.2 }} </td>
+                <td style='text-align: left; padding: 0px 30px 0px 8px'> {{ values.0 }} </td>
+                <td style='text-align: right'> {{ values.1 }} </td>
+                <tr>
+            {% endfor %}
+        </table>
+        {% elif ranking_list|length == 0 %}
+        <div id="rankingEmptyList">
+            <p>There is no users.</p>
+        </div>
+        {% else %}
+        <div id="noRankingList">
+            <p>Couldn't load the ranking.</p>
+        </div>
+        {% endif %}
+    </div>
+    -->
+
+    <div id="noRankingBlock" style="margin-left: auto; margin-right: auto; width: 300px">
+        <p> Couldn't load the ranking. </p>
+    </div>
+
+    <div id="rankingBlock" style="margin-left: auto; margin-right: auto; width: 800px">
+        <p style="text-align: center">Ranking Board</p>
+        <table id="rank" style="margin-left: auto; margin-right: auto;"></table>
+    </div>
+
+
+{% endblock %}

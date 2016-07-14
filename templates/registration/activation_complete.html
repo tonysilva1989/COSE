@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block extra_head %}
+    <meta http-equiv="refresh" content="2; URL=/">
+{% endblock %}
+
+{% block subtitle %}{% trans "account activation" %}{% endblock %}
+
+{% block content %}
+    <p>{% trans "Account successfully activated!" %}</p>
+{% endblock %}

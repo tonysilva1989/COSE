@@ -1,0 +1,11 @@
+{% extends "admin/base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "cose | collaborative segmentation" %} - {{ title }}{% endblock %}
+
+{% block branding %}
+<a href="{% url admin:index %}"><h1 id="site-name">{% trans "Collaborative Segmentation" %}</h1></a>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

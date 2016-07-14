@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block subtitle %}
+    {% trans "sign up" %}
+{% endblock %}
+
+{% block nav %}
+    <a href="{% url auth_login %}">{% trans "sign in" %}</a> &bull;
+    <a href="about.html">about</a>
+{% endblock %}
+
+{% block content %}
+    <p>Create a new account. A validation message will be sent to the provided email address.</p>
+    <div class="login">
+
+        <form method="post" action="">
+            {{ form.non_field_errors }}
+
+            {% csrf_token %}
+
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+            <p>
+                {{ form.username.errors }}
+                <label for="id_username">{% trans "user id" %}</label>
+                {{ form.username|add_class:"field" }}
+            </p>
+
+            <p>
+                {{ form.email.errors }}
+                <label for="id_email">{% trans "email" %}</label>
+                {{ form.email|add_class:"field" }}
+            </p>
+
+            <p>
+                {{ form.password1.errors }}
+                <label for="id_password1">{% trans "password" %}</label>
+                {{ form.password1|add_class:"field" }}
+            </p>
+
+            <p>
+                {{ form.password2.errors }}
+                <label for="id_password2">{% trans "confirm password" %}</label>
+                {{ form.password2|add_class:"field" }}
+            </p>
+
+            <p>
+                <label for="id_as_requester">{% trans "requester" %}</label>
+                {{ form.as_requester }}
+            </p>
+
+            <input type="submit" class="button" value="{% trans "sign up" %}"
+                   style="float:right"/>
+            <input type="hidden" name="next" value="{{ next }}"/>
+        </form>
+
+    </div>
+{% endblock %}

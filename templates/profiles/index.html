@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load staticfiles %}
+
+{% block extra_head %}
+    <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+    <script src="{% static "common/script/processing-1.4.1.min.js" %}"></script>
+
+    <script src="{% static "common/script/helper.js" %}"></script>
+
+    <script src="{% static "common/script/helper.js" %}"></script>
+
+    <script src="{% static "common/DataTables/media/js/jquery.dataTables.js" %}"></script>
+
+    <script src="{% static "profiles/script/index.js" %}"></script>
+
+    <link rel="stylesheet"
+          href="{% static "common/css/jqui-custom-theme/jquery-ui-1.9.0.custom.min.css" %}">
+
+    <link rel="stylesheet"
+          href="{% static "common/DataTables/media/css/demo_table.css" %}">
+
+    <link rel="stylesheet"
+          href="{% static "crowd/tileui/css/cosegui.css" %}">
+
+{% endblock %}
+
+{% block subtitle %}Worker's index{% endblock %}
+
+{% block content %}
+    <div id="statsBlock">
+        <ul>
+            <li id="workerScore"></li>
+            <li id="workerPosition"></li>
+        </ul>
+    </div>
+
+
+    <div id="assignmentsBlock" class="workarea">
+        <table id="testTable" class="display">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for session in lista %}
+                    <tr>
+                        <td>
+                            {% if session.result %}
+                                <img src={{session.result_thumbnail.url_50x50}}></img>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if session.expired %}
+                                Expired
+                            {% elif session.skipped %}
+                                Skipped
+                            {% elif session.has_result and session.assignment.concluded %}
+                                Done
+                            {% elif session.has_result and not session.assignment.has_merge %}
+                                No result available yet
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

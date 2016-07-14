@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block extra_head %}
+
+    <style>
+        h1 {
+
+        }
+    </style>
+
+{% endblock %}
+
+{% block subtitle %}
+    {% trans "Home" %}
+{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Welcome to Planta project!" %}</h1>
+
+    <h2>{{ user.user_id }}</h2>
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load staticfiles %}
+
+{% block extra_head %}
+    <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+    <script src="{% static "common/script/processing-1.4.1.min.js" %}"></script>
+
+    <script src="{% static "common/script/helper.js" %}"></script>
+
+    <script src="{% static "crowd/tileui/script/tileui.js" %}"></script>
+
+    <script src="{% static "crowd/tileui/script/watershed/watershed.js" %}"></script>
+    <script src="{% static "crowd/tileui/script/watershed/watershedTool.js" %}"></script>
+
+    <script src="{% static "crowd/tileui/script/livewire/livewire.js" %}"></script>
+    <script src="{% static "crowd/tileui/script/livewire/livewireTool.js" %}"></script>
+    
+    <script src="{% static "crowd/tileui/script/livevessel/livevessel.js" %}"></script>
+    <script src="{% static "crowd/tileui/script/livevessel/livevesselTool.js" %}"></script>
+
+    <script src="{% static "crowd/workers/script/index.js" %}"></script>
+
+    <link rel="stylesheet"
+          href="{% static "common/css/jqui-custom-theme/jquery-ui-1.9.0.custom.min.css" %}">
+
+    <link rel="stylesheet"
+          href="{% static "crowd/tileui/css/cosegui.css" %}">
+
+    <style>
+        #loadingBlock, #errorBlock, #noAssignmentsBlock, #sessionBlock, .confirmationBlock, #useAuxToolBlock {
+            display: none;
+        }
+
+        #loadingBlock {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.75);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
+
+        #errorBlock, #noAssignmentsBlock {
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            padding:0;
+            margin:0
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block subtitle %}Worker's index{% endblock %}
+
+{% block content %}
+    <div id="loadingBlock">
+        <p>Loading data from server...</p>
+    </div>
+
+    <div id="errorBlock">
+        <p>Could not load data from server... Try again later...</p>
+    </div>
+
+    <div id="noAssignmentsBlock">
+        <p>No assignments available!</p>
+    </div>
+
+    <div id="skipConfirmationBlock" class="confirmationBlock"
+         title="Confirm skip?" data-action="skip">
+        <p>Are you sure you want to skip this assignment?</p>
+    </div>
+
+    <div id="saveConfirmationBlock" class="confirmationBlock"
+         title="Confirm saving?" data-action="save">
+        <p>Are you sure you want to submit this assignment?</p>
+    </div>
+
+    <div id="useAuxToolBlock">
+        <p>If you select this tool, all manual changes will be undone. Do
+            you still want to select this tool?</p>
+    </div>
+
+
+    <div id="sessionBlock" class="workarea">
+        <div id="workerStats" style="width: 500px; margin-left: 136px; margin-right: auto; padding: 0px 0px 10px 0px;">
+            <ul style="padding: 0px 0px 0px 0px;">
+                <li id="workerScore"></li>
+                <li id="workerRanking"></li>
+            </ul>
+        </div>
+
+        <div class="buttons" sytle="">
+            <center>
+                <div class="button_set transparent">
+                    <div class="icon_button" id="undo" title="Undo">
+                        <img src="{% static "crowd/tileui/imgs/undo.png" %}">
+                    </div>
+                    <div class="icon_button" id="redo" title="Redo"><img
+                        <img src="{% static "crowd/tileui/imgs/redo.png" %}">
+                    </div>
+                </div>
+                <div class="button_set transparent">
+                    <div class="icon_button icon_button_selected" id="showStrokes"
+                         title="Click to show/hide canvas tracings">
+                        <img src="{% static "crowd/tileui/imgs/showStrokes.png" %}">
+                    </div>
+                    <div class="icon_button icon_button_selected" id="showScribbles"
+                         title="Click to show/hide smart tool scribbles">
+                        <img src="{% static "crowd/tileui/imgs/showScribbles.png" %}">
+                    </div>
+                </div>
+
+                <div class="button_set transparent">
+                    <div class="icon_button" id="selectStrokeTool"
+                         title="Manual tracing mode">
+                        <img src="{% static "crowd/tileui/imgs/selectStrokeTool.png" %}">
+                    </div>
+                    <div class="icon_button" id="selectAuxTool"
+                         title="Select smart tool">
+                        <img src="{% static "crowd/tileui/imgs/selectAuxTool.png" %}">
+                    </div>
+                </div>
+
+                <div class="button_set transparent">
+                    <div id="eraseMode" class="icon_button" title="Erase mode">
+                        <img src="{% static "crowd/tileui/imgs/eraseMode.png" %}">
+                    </div>
+                    <div id="clearEditor" class="icon_button"
+                         title="Clear canvas">
+                        <img src="{% static "crowd/tileui/imgs/clearEditor.png" %}">
+                    </div>
+                </div>
+
+                <div class="button_set transparent">
+                    <div id="zoomIn" class="icon_button" title="Zoom In">
+                        <img src="{% static "crowd/tileui/imgs/zoomIn.png" %}">
+                    </div>
+                    <div id="zoomOut" class="icon_button" title="Zoom Out">
+                        <img src="{% static "crowd/tileui/imgs/zoomOut.png" %}">
+                    </div>
+                </div>
+
+                <div class="button_set transparent">
+                    <div id="resetView" class="icon_button"
+                         title="Reset canvas position and scale">
+                        <img src="{% static "crowd/tileui/imgs/resetView.png" %}">
+                    </div>
+                    <div id="selectHandTool" class="icon_button"
+                         title="Use this tool to pan around or zoom the canvas">
+                        <img src="{% static "crowd/tileui/imgs/selectHandTool.png" %}">
+                    </div>
+                </div>
+
+                <div class="text_button silver"
+                     style="margin-top:20px; border-radius:60px"
+                     id="skipAssignment"
+                     title="Skip when not sure what to do">
+                    <img src="{% static "crowd/tileui/imgs/skip.png" %}">skip
+                </div>
+
+                <div style="position: absolute; bottom: 0">
+                    <!-- send the last button to bottom of buttons column -->
+                    <div class="text_button_set">
+                        <div class="text_button silver long"
+                             id="saveAssignment"
+                             title="Click to submit current result"><img
+                                src="{% static "crowd/tileui/imgs/submit.png" %}">done
+                        </div>
+                    </div>
+                </div>
+
+            </center>
+        </div>
+
+        <div class="canvas">
+            <canvas></canvas>
+        </div>
+    </div>
+
+
+{% endblock %}

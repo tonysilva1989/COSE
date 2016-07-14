@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block subtitle %}
+    {% trans "log in" %}
+{% endblock %}
+
+{% block nav %}
+    <a href="{% url registration_register %}">{% trans "new account" %}</a> &bull;
+    <a href="{% url auth_password_reset %}">{% trans "reset password" %}</a> &bull;
+    <a href="about.html">about</a>
+{% endblock %}
+
+{% block content %}
+    <div class="login">
+
+        <form method="post" action="">
+            {{ form.non_field_errors }}
+
+            {% csrf_token %}
+
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+            <p>
+                {{ form.username.errors }}
+                <label for="id_username">{% trans "user id" %}</label>
+                {{ form.username|add_class:"field" }}
+            </p>
+
+            <p>
+                {{ form.password.errors }}
+                <label for="id_password">{% trans "password" %}</label>
+                {{ form.password|add_class:"field" }}
+            </p>
+
+            <input type="submit" class="button" value="{% trans "sign in" %}"
+                   style="float:right"/>
+            <input type="hidden" name="next" value="{{ next }}"/>
+        </form>
+
+    </div>
+{% endblock %}
