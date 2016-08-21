@@ -25,7 +25,7 @@
 <div class="nav">
 {% block nav %}
     {% if user.is_authenticated %}
-        {% trans "Welcome Usuário(a)," %} <a href="{% url auth_password_change %}">{{ user.username }}</a> &bull;
+        {% trans "Welcome Usuário(a)," %} <a href="{% url crowd:profile_index %}">{{ user.username }}</a> &bull;
         <a href="{% url crowd:ranking_index %}">{% trans "ranking" %}</a> &bull;
         <a href="{% url auth_logout %}">{% trans "log out" %}</a> &bull;
     {% else %}
